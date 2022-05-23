@@ -30,7 +30,7 @@ public class CharacterMove : MonoBehaviour
 
     GameObject startPoint;
 
-    bool die;
+    public bool die;
     bool OnSave;
 
     string fileName = "SaveData";
@@ -40,10 +40,12 @@ public class CharacterMove : MonoBehaviour
         collider2D = GetComponent<CircleCollider2D>();
         BodyParts = transform.GetComponentsInChildren<Rigidbody2D>().ToList();
 
-        string path = Application.persistentDataPath + "/" + fileName + ".Json";
-
+        //Save Managing
+        string path = "Resources/" + fileName + ".Json";
         string json = File.ReadAllText(path);
-        saveData = JsonUtility.FromJson<StickManMoveSaveData>(json);
+        FileInfo file = new FileInfo(path);
+        if (file != null)
+            saveData = JsonUtility.FromJson<StickManMoveSaveData>(json);
 
         StartCoroutine(deepRunniung());
     }
@@ -68,21 +70,33 @@ public class CharacterMove : MonoBehaviour
             }
             else
             {
+                die = true;
+
                 float distance = transform.position.x - startPoint.transform.position.x;
                 moveDatas.resultValue = distance / runningTime;
 
                 if (!OnSave)
                 {
-                    OnSave = true;
-                    saveData.data.Add(moveDatas);
-                    string json = JsonUtility.ToJson(saveData);
-                    string path = Application.persistentDataPath + "/" + fileName + ".Json";
-
-                    File.WriteAllText(path, json);
+                    characterReset();
                 }
             }
             yield return new WaitForSeconds(0.01f);
         }
+    }
+    /// <summary>
+    /// Call On Character Fail
+    /// </summary>
+    private void characterReset()
+    {
+        OnSave = true;
+        saveData.data.Add(moveDatas);
+        string json = JsonUtility.ToJson(saveData);
+        string path = "Resources/" + fileName + ".Json";
+
+        File.WriteAllText(path, json);
+
+        Instantiate(Resources.Load("Character"), Vector3.up, Quaternion.identity);
+        Destroy(gameObject);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
