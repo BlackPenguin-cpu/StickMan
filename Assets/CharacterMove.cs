@@ -7,8 +7,8 @@ using System.IO;
 [System.Serializable]
 public class StickManMoveData
 {
-    public List<int> bodyPartNumber;
-    public List<int> torquePower;
+    public List<int> bodyPartNumber = new List<int>();
+    public List<int> torquePower = new List<int>();
     public float resultValue;
 }
 
@@ -41,11 +41,14 @@ public class CharacterMove : MonoBehaviour
         BodyParts = transform.GetComponentsInChildren<Rigidbody2D>().ToList();
 
         //Save Managing
-        string path = "Resources/" + fileName + ".Json";
-        string json = File.ReadAllText(path);
+        string path = Application.persistentDataPath +"/" + fileName + ".Json";
         FileInfo file = new FileInfo(path);
-        if (file != null)
+        if (file.Exists)
+        {
+            string json = File.ReadAllText(path);
             saveData = JsonUtility.FromJson<StickManMoveSaveData>(json);
+        }
+
 
         StartCoroutine(deepRunniung());
     }
@@ -73,7 +76,7 @@ public class CharacterMove : MonoBehaviour
                 die = true;
 
                 float distance = transform.position.x - startPoint.transform.position.x;
-                moveDatas.resultValue = distance / runningTime;
+                moveDatas.resultValue = distance / runningTime - runningTime;
 
                 if (!OnSave)
                 {
@@ -89,14 +92,7 @@ public class CharacterMove : MonoBehaviour
     private void characterReset()
     {
         OnSave = true;
-        saveData.data.Add(moveDatas);
-        string json = JsonUtility.ToJson(saveData);
-        string path = "Resources/" + fileName + ".Json";
-
-        File.WriteAllText(path, json);
-
-        Instantiate(Resources.Load("Character"), Vector3.up, Quaternion.identity);
-        Destroy(gameObject);
+        DeepRunningManager.instance.saveData.data.Add(moveDatas);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
