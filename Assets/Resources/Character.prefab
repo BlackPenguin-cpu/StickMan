@@ -1685,8 +1685,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 1
+  m_AngularDrag: 1
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -1707,6 +1707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runningTime: 0
   die: 0
+  originalCharacter: 0
 --- !u!233 &784535212518489466
 HingeJoint2D:
   m_ObjectHideFlags: 0
