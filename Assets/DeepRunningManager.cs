@@ -36,26 +36,23 @@ public class DeepRunningManager : MonoBehaviour
     void GameReset()
     {
 
-        for (int i = 0; i < 10; i++)
+        var data = from save in saveData.data
+                   orderby save.resultValue
+                   select save;
+
+        saveData.data = data.ToList();
+
+        string json = JsonUtility.ToJson(saveData);
+        string path = Application.persistentDataPath + "/" + fileName + ".Json";
+
+        File.WriteAllText(path, json);
+
+        CharacterMove[] characters = FindObjectsOfType<CharacterMove>();
+        Vector3 pos = new Vector3(0, 1, 0);
+        foreach (CharacterMove character in characters)
         {
-            var data = from save in saveData.data
-                       orderby save.resultValue
-                       select save;
-
-            saveData.data = data.ToList();
-
-            string json = JsonUtility.ToJson(saveData);
-            string path = Application.persistentDataPath + "/" + fileName + ".Json";
-
-            File.WriteAllText(path, json);
-
-            CharacterMove[] characters = FindObjectsOfType<CharacterMove>();
-            Vector3 pos = new Vector3(0, 1, 0);
-            foreach (CharacterMove character in characters)
-            {
-                Destroy(character.gameObject);
-                Instantiate(characterPrefab, pos, Quaternion.identity);
-            }
+            Destroy(character.gameObject);
+            Instantiate(characterPrefab, pos, Quaternion.identity);
         }
     }
 }
