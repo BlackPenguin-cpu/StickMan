@@ -12,7 +12,7 @@ public class DeepRunningManager : MonoBehaviour
     public StickManMoveSaveData saveData;
 
     string fileName = "SaveData";
-    private void Update()
+    private void FixedUpdate()
     {
         if (instance == null)
             instance = this;

@@ -46,20 +46,22 @@ public class CharacterMove : MonoBehaviour
         saveData = JsonUtility.FromJson<StickManMoveSaveData>(json);
 
 
-        StartCoroutine(deepRunniung());
+        StartCoroutine(deepLearning());
     }
 
     void Update()
     {
         runningTime += Time.deltaTime;
     }
-    IEnumerator deepRunniung()
+    IEnumerator deepLearning()
     {
+        int MoveCount = 0;
         while (true)
         {
-            int MoveCount = 0;
             if (!die && runningTime < 60)
             {
+                float temp = Time.time * 100f;
+                Random.InitState((int)temp);
                 int nowBodyPart = 0;
                 int movePower = 0;
                 if (saveData == null || saveData.data.FirstOrDefault() == null)
@@ -69,8 +71,17 @@ public class CharacterMove : MonoBehaviour
                 }
                 else if (originalCharacter)
                 {
-                    movePower = saveData.data.FirstOrDefault().torquePower[MoveCount];
-                    nowBodyPart = saveData.data.FirstOrDefault().bodyPartNumber[MoveCount];
+                    if (MoveCount >= saveData.data.FirstOrDefault().torquePower.Count)
+                    {
+                        Debug.Log("asd");
+                        nowBodyPart = Random.Range(0, BodyParts.Count);
+                        movePower = Random.Range(-100, 100);
+                    }
+                    else
+                    {
+                        movePower = saveData.data.FirstOrDefault().torquePower[MoveCount];
+                        nowBodyPart = saveData.data.FirstOrDefault().bodyPartNumber[MoveCount];
+                    }
                 }
                 else if (Random.Range(0, 10) == 0)
                 {
