@@ -29,13 +29,12 @@ public class DeepRunningManager : MonoBehaviour
         }
         if (allOk)
         {
-            GameReset();
             allOk = false;
+            GameReset();
         }
     }
     void GameReset()
     {
-        Vector3 pos = new Vector3(0, 1, 0);
 
         for (int i = 0; i < 10; i++)
         {
@@ -51,6 +50,7 @@ public class DeepRunningManager : MonoBehaviour
             File.WriteAllText(path, json);
 
             CharacterMove[] characters = FindObjectsOfType<CharacterMove>();
+            Vector3 pos = new Vector3(0, 1, 0);
             foreach (CharacterMove character in characters)
             {
                 Destroy(character.gameObject);
