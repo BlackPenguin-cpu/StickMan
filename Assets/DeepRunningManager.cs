@@ -8,7 +8,7 @@ public class DeepRunningManager : MonoBehaviour
 {
     public static DeepRunningManager instance;
     public bool allOk;
-    public GameObject characterPrefab;
+    public CharacterMove characterPrefab;
     public StickManMoveSaveData saveData;
 
     string fileName = "SaveData";
@@ -37,10 +37,10 @@ public class DeepRunningManager : MonoBehaviour
     {
 
         var data = from save in saveData.data
-                   orderby save.resultValue
+                   orderby save.resultValue descending
                    select save;
 
-        saveData.data = data.ToList();
+        saveData.data = data.Take(10).ToList();
 
         string json = JsonUtility.ToJson(saveData);
         string path = Application.persistentDataPath + "/" + fileName + ".Json";
@@ -51,8 +51,14 @@ public class DeepRunningManager : MonoBehaviour
         Vector3 pos = new Vector3(0, 1, 0);
         foreach (CharacterMove character in characters)
         {
+            if (character.originalCharacter)
+            {
+                CharacterMove obj = Instantiate(characterPrefab, pos, Quaternion.identity);
+                obj.originalCharacter = true;
+            }
+            else
+                Instantiate(characterPrefab, pos, Quaternion.identity);
             Destroy(character.gameObject);
-            Instantiate(characterPrefab, pos, Quaternion.identity);
         }
     }
 }

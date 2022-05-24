@@ -31,7 +31,7 @@ public class CharacterMove : MonoBehaviour
     GameObject startPoint;
 
     public bool die;
-    bool OnSave;
+    public bool originalCharacter;
 
     string fileName = "SaveData";
     void Start()
@@ -41,13 +41,9 @@ public class CharacterMove : MonoBehaviour
         BodyParts = transform.GetComponentsInChildren<Rigidbody2D>().ToList();
 
         //Save Managing
-        string path = Application.persistentDataPath +"/" + fileName + ".Json";
-        FileInfo file = new FileInfo(path);
-        if (file.Exists)
-        {
-            string json = File.ReadAllText(path);
-            saveData = JsonUtility.FromJson<StickManMoveSaveData>(json);
-        }
+        string path = Application.persistentDataPath + "/" + fileName + ".Json";
+        string json = File.ReadAllText(path);
+        saveData = JsonUtility.FromJson<StickManMoveSaveData>(json);
 
 
         StartCoroutine(deepRunniung());
@@ -61,11 +57,33 @@ public class CharacterMove : MonoBehaviour
     {
         while (true)
         {
+            int MoveCount = 0;
             if (!die && runningTime < 60)
             {
-                int nowBodyPart = Random.Range(0, BodyParts.Count);
-                int movePower = Random.Range(-500, 500);
+                int nowBodyPart = 0;
+                int movePower = 0;
+                if (saveData == null || saveData.data.FirstOrDefault() == null)
+                {
+                    nowBodyPart = Random.Range(0, BodyParts.Count);
+                    movePower = Random.Range(-500, 500);
+                }
+                else if (originalCharacter)
+                {
+                    movePower = saveData.data.FirstOrDefault().torquePower[MoveCount];
+                    nowBodyPart = saveData.data.FirstOrDefault().bodyPartNumber[MoveCount];
+                }
+                else if (Random.Range(0, 10) == 0)
+                {
+                    nowBodyPart = Random.Range(0, BodyParts.Count);
+                    movePower = Random.Range(-500, 500);
+                }
+                else
+                {
+                    movePower = saveData.data.FirstOrDefault().torquePower[MoveCount];
+                    nowBodyPart = saveData.data.FirstOrDefault().bodyPartNumber[MoveCount];
+                }
 
+                MoveCount++;
                 BodyParts[nowBodyPart].AddTorque(movePower);
 
                 moveDatas.bodyPartNumber.Add(nowBodyPart);
@@ -76,23 +94,14 @@ public class CharacterMove : MonoBehaviour
                 die = true;
 
                 float distance = transform.position.x - startPoint.transform.position.x;
-                moveDatas.resultValue = distance / runningTime - runningTime;
+                moveDatas.resultValue = distance / runningTime/* - runningTime*/;
 
-                if (!OnSave)
-                {
-                    characterReset();
-                }
+                // Call On Character Fail
+                DeepRunningManager.instance.saveData.data.Add(moveDatas);
+                break;
             }
             yield return new WaitForSeconds(0.01f);
         }
-    }
-    /// <summary>
-    /// Call On Character Fail
-    /// </summary>
-    private void characterReset()
-    {
-        OnSave = true;
-        DeepRunningManager.instance.saveData.data.Add(moveDatas);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
