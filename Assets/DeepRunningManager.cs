@@ -48,16 +48,15 @@ public class DeepRunningManager : MonoBehaviour
         File.WriteAllText(path, json);
 
         CharacterMove[] characters = FindObjectsOfType<CharacterMove>();
-        Vector3 pos = new Vector3(0, 1, 0);
         foreach (CharacterMove character in characters)
         {
             if (character.originalCharacter)
             {
-                CharacterMove obj = Instantiate(characterPrefab, pos, Quaternion.identity);
+                CharacterMove obj = Instantiate(characterPrefab, Vector3.zero, Quaternion.identity);
                 obj.originalCharacter = true;
             }
             else
-                Instantiate(characterPrefab, pos, Quaternion.identity);
+                Instantiate(characterPrefab, Vector3.zero, Quaternion.identity);
             Destroy(character.gameObject);
         }
     }

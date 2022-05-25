@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.IO;
+using System.Threading.Tasks;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class StickManMoveData
@@ -21,8 +23,7 @@ public class StickManMoveSaveData
 public class CharacterMove : MonoBehaviour
 {
     public float runningTime;
-
-    Collider2D collider2D;
+    new Collider2D collider2D;
     List<Rigidbody2D> BodyParts;
 
     StickManMoveSaveData saveData;
@@ -33,7 +34,7 @@ public class CharacterMove : MonoBehaviour
     public bool die;
     public bool originalCharacter;
 
-    string fileName = "SaveData";
+    private readonly string fileName = "SaveData";
     void Start()
     {
         startPoint = GameObject.Find("StartPoint");
@@ -45,20 +46,20 @@ public class CharacterMove : MonoBehaviour
         string json = File.ReadAllText(path);
         saveData = JsonUtility.FromJson<StickManMoveSaveData>(json);
 
-
-        StartCoroutine(deepLearning());
+        deepLearning();
     }
 
     void Update()
     {
         runningTime += Time.deltaTime;
+        if (runningTime > 60) die = true;
     }
-    IEnumerator deepLearning()
+    async void deepLearning()
     {
         int MoveCount = 0;
         while (true)
         {
-            if (!die && runningTime < 60)
+            if (!die)
             {
                 float temp = Time.time * 100f;
                 Random.InitState((int)temp);
@@ -73,7 +74,7 @@ public class CharacterMove : MonoBehaviour
                 {
                     if (MoveCount >= saveData.data.FirstOrDefault().torquePower.Count)
                     {
-                        Debug.Log("asd");
+                        Debug.Assert(false);
                         nowBodyPart = Random.Range(0, BodyParts.Count);
                         movePower = Random.Range(-100, 100);
                     }
@@ -112,7 +113,7 @@ public class CharacterMove : MonoBehaviour
                 DeepRunningManager.instance.saveData.data.Add(moveDatas);
                 break;
             }
-            yield return new WaitForSeconds(0.01f);
+            await Task.Delay(10);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
