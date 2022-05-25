@@ -23,6 +23,7 @@ public class StickManMoveSaveData
 public class CharacterMove : MonoBehaviour
 {
     public float runningTime;
+    new Collider2D collider2D;
     List<Rigidbody2D> BodyParts;
 
     StickManMoveSaveData saveData;
@@ -34,14 +35,15 @@ public class CharacterMove : MonoBehaviour
     public bool die;
     public bool originalCharacter;
 
-    private readonly string fileName = "SaveData";
+    private readonly string fileName = "SaveData"; 
     void Start()
     {
         startPos = transform.position;
         startPoint = GameObject.Find("StartPoint");
+        collider2D = GetComponent<CircleCollider2D>();
         BodyParts = transform.GetComponentsInChildren<Rigidbody2D>().ToList();
 
-        //저장 데이터를 불러옵니다
+        //Save Managing
         string path = Application.persistentDataPath + "/" + fileName + ".Json";
         string json = File.ReadAllText(path);
         saveData = JsonUtility.FromJson<StickManMoveSaveData>(json);
@@ -54,60 +56,66 @@ public class CharacterMove : MonoBehaviour
         runningTime += Time.deltaTime;
         if (runningTime > 60) die = true;
     }
-    #region 딥러닝 세이브 데이터를 토대로 움직입니다.
     async void deepLearning()
     {
         int MoveCount = 0;
-        //이 반복문은 해당 객체가 파괴되기 전까지 반복되며 0.01초마다 반복됩니다
         while (true)
         {
             if (!die)
             {
-                //Random에 시드값을 초기화 해줍니다
                 float temp = Time.time * 100f;
                 Random.InitState((int)temp);
                 int nowBodyPart = 0;
                 int movePower = 0;
-
-                if (saveData == null || saveData.data.FirstOrDefault() == null || originalCharacter || Random.Range(0, 10) < 2 || MoveCount >= saveData.data.FirstOrDefault().torquePower.Count)
+                if (saveData == null || saveData.data.FirstOrDefault() == null)
                 {
-                    //SaveData가 없거나 가장 열성 유전자모델 이거나 20퍼센트로 변이 유전자거나 저장된것보다 오래 살아있다면 랜덤하게 움직입니다.
+                    nowBodyPart = Random.Range(0, BodyParts.Count);
+                    movePower = Random.Range(-500, 500);
+                }
+                else if (originalCharacter)
+                {
+                    if (MoveCount >= saveData.data.FirstOrDefault().torquePower.Count)
+                    {
+                        //Debug.Assert(false);
+                        nowBodyPart = Random.Range(0, BodyParts.Count);
+                        movePower = Random.Range(-500, 500);
+                    }
+                    else
+                    {
+                        movePower = saveData.data.FirstOrDefault().torquePower[MoveCount];
+                        nowBodyPart = saveData.data.FirstOrDefault().bodyPartNumber[MoveCount];
+                    }
+                }
+                else if (Random.Range(0, 10) < 2 || MoveCount >= saveData.data.FirstOrDefault().torquePower.Count)
+                {
                     nowBodyPart = Random.Range(0, BodyParts.Count);
                     movePower = Random.Range(-500, 500);
                 }
                 else
                 {
-                    //위 조건이 모두 아닐경우 원래 세이브에 있는 열성 유전자 데이터를 가져옵니다
                     movePower = saveData.data.FirstOrDefault().torquePower[MoveCount];
                     nowBodyPart = saveData.data.FirstOrDefault().bodyPartNumber[MoveCount];
                 }
 
-                //MoveCount를 더하고 
                 MoveCount++;
                 BodyParts[nowBodyPart].AddTorque(movePower);
 
                 moveDatas.bodyPartNumber.Add(nowBodyPart);
                 moveDatas.torquePower.Add(movePower);
             }
-            // 캐릭터가 시간 초과 또는 플랫폼에 충돌했다면 죽음 판정이 됩니다 
-            else if (die == true)
+            else
             {
-                //딥러닝의 보상을 정해줍니다. 여기선 (시간만큼 간 거리 + 버틴 시간) 입니다.
                 float distance = transform.position.x - startPoint.transform.position.x;
                 moveDatas.resultValue = distance / runningTime + runningTime;
                 Debug.Log(moveDatas.resultValue);
-
+                 
+                // Call On Character Fail
                 DeepRunningManager.instance.saveData.data.Add(moveDatas);
                 break;
             }
             await Task.Delay(10);
         }
     }
-    #endregion
-    /// <summary>
-    /// 피격판정에 Platform이 닿았을경우 죽었다 표시
-    /// </summary>
-    /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.tag.Contains("Platform"))
