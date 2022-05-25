@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 784535210651642645}
   - component: {fileID: 784535210651642642}
   - component: {fileID: 784535210651642643}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 784535211137763762}
   - component: {fileID: 784535211137763763}
   - component: {fileID: 1255168849499121090}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: DownBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 784535211244418571}
   - component: {fileID: 784535211244418568}
   - component: {fileID: 784535211244418569}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +424,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 3.6
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 10
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -494,7 +494,7 @@ GameObject:
   - component: {fileID: 784535211554842510}
   - component: {fileID: 784535211554842608}
   - component: {fileID: 784535211554842609}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 784535211806332126}
   - component: {fileID: 784535211806332127}
   - component: {fileID: 784535211806332124}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: RightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -736,7 +736,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 3.6
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 10
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -806,7 +806,7 @@ GameObject:
   - component: {fileID: 784535211925313184}
   - component: {fileID: 784535211925313185}
   - component: {fileID: 784535211925313214}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: 'LeftHand '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -962,7 +962,7 @@ GameObject:
   - component: {fileID: 784535212047059512}
   - component: {fileID: 784535212047059513}
   - component: {fileID: 784535212047059510}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1048,7 +1048,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 3.6
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 10
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -1118,7 +1118,7 @@ GameObject:
   - component: {fileID: 784535212208365086}
   - component: {fileID: 784535212208365056}
   - component: {fileID: 784535212208365057}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1274,7 +1274,7 @@ GameObject:
   - component: {fileID: 784535212356283628}
   - component: {fileID: 784535212356283629}
   - component: {fileID: 784535212356283626}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: LeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1360,7 +1360,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 3.6
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 10
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -1431,7 +1431,7 @@ GameObject:
   - component: {fileID: 784535212429480171}
   - component: {fileID: 784535212429480168}
   - component: {fileID: 4782178646764848617}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: UpBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1600,7 +1600,7 @@ GameObject:
   - component: {fileID: 784535212518489463}
   - component: {fileID: 784535212518489467}
   - component: {fileID: 784535212518489466}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1732,6 +1732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runningTime: 0
+  startPos: {x: 0, y: 0, z: 0}
   die: 0
   originalCharacter: 0
 --- !u!233 &784535212518489466
