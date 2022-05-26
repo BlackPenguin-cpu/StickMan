@@ -35,7 +35,7 @@ public class CharacterMove : MonoBehaviour
     public bool die;
     public bool originalCharacter;
 
-    private readonly string fileName = "SaveData"; 
+    private readonly string fileName = "SaveData";
     void Start()
     {
         startPos = transform.position;
@@ -48,6 +48,7 @@ public class CharacterMove : MonoBehaviour
         string json = File.ReadAllText(path);
         saveData = JsonUtility.FromJson<StickManMoveSaveData>(json);
 
+        Debug.Log("------------------");
         deepLearning();
     }
 
@@ -74,14 +75,15 @@ public class CharacterMove : MonoBehaviour
                 }
                 else if (originalCharacter)
                 {
-                    if (MoveCount >= saveData.data.FirstOrDefault().torquePower.Count)
+                    //if (MoveCount >= saveData.data.FirstOrDefault().torquePower.Count)
+                    //{
+                    //    //Debug.Assert(false);
+                    //    nowBodyPart = Random.Range(0, BodyParts.Count);
+                    //    movePower = Random.Range(-500, 500);
+                    //}
+                    //else
                     {
-                        //Debug.Assert(false);
-                        nowBodyPart = Random.Range(0, BodyParts.Count);
-                        movePower = Random.Range(-500, 500);
-                    }
-                    else
-                    {
+                        Debug.Log($"torquePower: {saveData.data.FirstOrDefault().torquePower[MoveCount]} bodyPartNumber : {saveData.data.FirstOrDefault().bodyPartNumber[MoveCount]}, time : {runningTime}");
                         movePower = saveData.data.FirstOrDefault().torquePower[MoveCount];
                         nowBodyPart = saveData.data.FirstOrDefault().bodyPartNumber[MoveCount];
                     }
@@ -108,7 +110,7 @@ public class CharacterMove : MonoBehaviour
                 float distance = transform.position.x - startPoint.transform.position.x;
                 moveDatas.resultValue = distance / runningTime + runningTime;
                 Debug.Log(moveDatas.resultValue);
-                 
+
                 // Call On Character Fail
                 DeepRunningManager.instance.saveData.data.Add(moveDatas);
                 break;

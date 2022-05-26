@@ -32,7 +32,7 @@ Transform:
   m_LocalScale: {x: 0.3143, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 784535212518489464}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
 --- !u!212 &784535210651642644
 SpriteRenderer:
@@ -189,7 +189,7 @@ Transform:
   m_LocalScale: {x: 0.3143, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 784535212518489464}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &784535211137763764
 SpriteRenderer:
@@ -357,7 +357,7 @@ Transform:
   m_LocalScale: {x: 0.3143, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 784535212518489464}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30}
 --- !u!212 &784535211244418570
 SpriteRenderer:
@@ -513,7 +513,7 @@ Transform:
   m_LocalScale: {x: 0.3143, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 784535212518489464}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -33.262}
 --- !u!212 &784535211554842611
 SpriteRenderer:
@@ -669,7 +669,7 @@ Transform:
   m_LocalScale: {x: 0.3143, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 784535212518489464}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
 --- !u!212 &784535211806332097
 SpriteRenderer:
@@ -825,7 +825,7 @@ Transform:
   m_LocalScale: {x: 0.3143, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 784535212518489464}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -33.262}
 --- !u!212 &784535211925313187
 SpriteRenderer:
@@ -981,7 +981,7 @@ Transform:
   m_LocalScale: {x: 0.3143, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 784535212518489464}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
 --- !u!212 &784535212047059515
 SpriteRenderer:
@@ -1137,7 +1137,7 @@ Transform:
   m_LocalScale: {x: 0.3143, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 784535212518489464}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
 --- !u!212 &784535212208365059
 SpriteRenderer:
@@ -1293,7 +1293,7 @@ Transform:
   m_LocalScale: {x: 0.3143, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 784535212518489464}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30}
 --- !u!212 &784535212356283631
 SpriteRenderer:
@@ -1450,7 +1450,7 @@ Transform:
   m_LocalScale: {x: 0.3143, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 784535212518489464}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &784535212429480173
 SpriteRenderer:
@@ -1600,6 +1600,7 @@ GameObject:
   - component: {fileID: 784535212518489463}
   - component: {fileID: 784535212518489467}
   - component: {fileID: 784535212518489466}
+  - component: {fileID: 5321309717966753772}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -1618,6 +1619,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 784535211925313215}
   - {fileID: 784535211137763767}
   - {fileID: 784535212429480172}
   - {fileID: 784535212356283627}
@@ -1627,7 +1629,6 @@ Transform:
   - {fileID: 784535212208365058}
   - {fileID: 784535210651642640}
   - {fileID: 784535211554842610}
-  - {fileID: 784535211925313215}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1759,3 +1760,25 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 180
+--- !u!66 &5321309717966753772
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784535212518489460}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths: []
+  m_CompositePaths:
+    m_Paths: []
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
